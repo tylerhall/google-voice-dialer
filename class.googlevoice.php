@@ -18,7 +18,6 @@
             $html = $this->curl('http://www.google.com/voice/m');
 
             $action = $this->match('!<form.*?action="(.*?)"!ms', $html, 1);
-            $action = 'https://www.google.com/accounts/' . $action;
 
             preg_match_all('!<input.*?type="hidden".*?name="(.*?)".*?value="(.*?)"!ms', $html, $hidden);
 
@@ -27,6 +26,7 @@
                 $post .= '&' . $hidden[1][$i] . '=' . urlencode($hidden[2][$i]);
 
             $html = $this->curl($action, $this->lastURL, $post);
+
             return $html;
         }
 
@@ -37,9 +37,10 @@
             $them = preg_replace('/[^0-9]/', '', $them);
 
             $html = $this->login();
+
             $crumb = urlencode($this->match('!<input.*?name="_rnr_se".*?value="(.*?)"!ms', $html, 1));
 
-            $post = "_rnr_se=$crumb&number=$them&call=Call"; echo $post;
+            $post = "_rnr_se=$crumb&number=$them&call=Call";
             $html = $this->curl("https://www.google.com/voice/m/callsms", $this->lastURL, $post);
 
             preg_match_all('!<input.*?type="hidden".*?name="(.*?)".*?value="(.*?)"!ms', $html, $hidden);
@@ -94,5 +95,5 @@
     }
 
     // Example Usge:
-    // $gv = new GoogleVoice('you@gmail.com', 'password');
-    // $gv->call('your number', 'their number');
+    $gv = new GoogleVoice('username@gmail.com', 'password');
+    $gv->call('yournumber', 'their number');
