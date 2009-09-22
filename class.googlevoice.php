@@ -52,6 +52,27 @@
             $html = $this->curl("https://www.google.com/voice/m/sendcall", $this->lastURL, $post);
         }
 
+        public function sms($you, $them,$smtxt)
+        {
+            $you = preg_replace('/[^0-9]/', '', $you);
+            $them = preg_replace('/[^0-9]/', '', $them);
+
+            $html = $this->login();
+
+            $crumb = urlencode($this->match('!<input.*?name="_rnr_se".*?value="(.*?)"!ms', $html, 1));
+
+            $post = "_rnr_se=$crumb&number=$them&smstext=$smtxt&submit=Send";
+            $html = $this->curl("https://www.google.com/voice/m/sendsms", $this->lastURL, $post);
+
+            preg_match_all('!<input.*?type="hidden".*?name="(.*?)".*?value="(.*?)"!ms', $html, $hidden);
+            $post = '';
+            for($i = 0; $i < count($hidden[0]); $i++)
+                $post .= '&' . $hidden[1][$i] . '=' . urlencode($hidden[2][$i]);
+            $post .= "&submit=";
+
+            $html = $this->curl("https://www.google.com/voice/m/sendcall", $this->lastURL, $post);
+        }
+
         private function curl($url, $referer = null, $post = null, $return_header = false)
         {
             static $tmpfile;
