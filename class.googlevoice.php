@@ -29,20 +29,7 @@
 
             return $html;
         }
-				// Send a $text to $num. $num is 10 digit US phone number
-				public function sms($text,$num) {
 
-					$num = preg_replace('/[^0-9]/', '', $num);
-					$html = $this->login();
-
-					$crumb = urlencode($this->match('!<input.*?name="_rnr_se".*?value="(.*?)"!ms', $html, 1));
-
-					$post = "phoneNumber=$num&text=".urlencode($text)."&_rnr_se=$crumb";
-
-					$html=$this->curl("https://www.google.com/voice/sms/send",$this->lastURL,$post);
-					return $html;
-
-				}
         // Connect $you to $them. Takes two 10 digit US phone numbers.
         public function call($you, $them)
         {
@@ -65,7 +52,7 @@
             $html = $this->curl("https://www.google.com/voice/m/sendcall", $this->lastURL, $post);
         }
 
-        public function sms($you, $them,$smtxt)
+        public function sms($you, $them, $smtxt)
         {
             $you = preg_replace('/[^0-9]/', '', $you);
             $them = preg_replace('/[^0-9]/', '', $them);
