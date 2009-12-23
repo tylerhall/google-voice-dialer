@@ -118,4 +118,5 @@
     $gv = new GoogleVoice('username@gmail.com', 'password');
     $gv->call('yournumber', 'their number');
 
-    $gv->sms('hello world','somenumber');
+    $gv->sms('somenumber', hello world');
+?>
