@@ -52,9 +52,8 @@
             $html = $this->curl("https://www.google.com/voice/m/sendcall", $this->lastURL, $post);
         }
 
-        public function sms($you, $them, $smtxt)
+        public function sms($them, $smtxt)
         {
-            $you = preg_replace('/[^0-9]/', '', $you);
             $them = preg_replace('/[^0-9]/', '', $them);
 
             $html = $this->login();
@@ -119,4 +118,4 @@
     $gv = new GoogleVoice('username@gmail.com', 'password');
     $gv->call('yournumber', 'their number');
 
-    $gb->sms('hello world','somenumber');
+    $gv->sms('hello world','somenumber');
